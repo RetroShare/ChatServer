@@ -25,9 +25,10 @@ void Chatserver::loadChatServerStore(const std::string filename)
 	{
 		getline(ifs, line);
 		std::cout << "reading |" << line << "|" << ", length " << line.length() << std::endl;
-		if (line.length() == 40)
+		if (line.length() == 16)
 			friends.push_back(line);
 	};
+	ifs.close();
 }
 
 void Chatserver::saveChatServerStore(const std::string filename)
@@ -38,11 +39,12 @@ void Chatserver::saveChatServerStore(const std::string filename)
 		std::cout << "writing |" << *it << "|" << std::endl;
 		ofs << *it << std::endl;
 	}
+	ofs.close();
 }
 
 void Chatserver::tick()
 {
-	std::cout << "Chatserver::tick(" << ++tickCounter << ")" << std::endl;
+	std::cout << "Chatserver::tick(" << ++tickCounter << "), currently " << numberOfFriends() << " friends." << std::endl;
 
 	if (tickCounter % checkForNewCertsInterval == 0)
 		checkForNewCertificates();
