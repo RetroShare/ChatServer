@@ -3,8 +3,50 @@
 #include <iostream>
 #include "chatserver.h"
 
+#include <dirent.h>
+
+// copied from http://bytes.com/topic/c/answers/584434-check-directory-exists-c
+bool DirectoryExists( const char* pzPath )
+{
+    if ( pzPath == NULL) return false;
+
+    DIR *pDir;
+    bool bExists = false;
+
+    pDir = opendir (pzPath);
+
+    if (pDir != NULL)
+    {
+        bExists = true;
+        (void) closedir (pDir);
+    }
+
+    return bExists;
+}
+
+bool file_writable(const char * filename)
+{
+	if (FILE * file = fopen(filename, "rw"))
+	{
+		fclose(file);
+		return true;
+	}
+	return false;
+}
+
 int main(int argc, char **argv)
 {
+	if (!DirectoryExists(certificatePath.c_str()))
+	{
+		std::cout << "hardcoded certificatePath " << certificatePath << " doesn't exist!" << std::endl;
+		return 1;
+	}
+	if (!file_writable(temporaryFriendsFile.c_str()))
+	{
+		std::cout << "hardcoded temporary friends file " << temporaryFriendsFile << "doesn't exist or isn't writable!" << std::endl;
+		return 1;
+	}
+
 	// startup libretroshare
 	RsInit::InitRsConfig();
 	int initResult = RsInit::InitRetroShare(argc, argv, true);

@@ -24,7 +24,9 @@ void Chatserver::loadChatServerStore(const std::string filename)
 	while (!ifs.eof())
 	{
 		getline(ifs, line);
-		std::cout << "reading |" << line << "|" << std::endl;
+		std::cout << "reading |" << line << "|" << ", length " << line.length() << std::endl;
+		if (line.length() == 40)
+			friends.push_back(line);
 	};
 }
 

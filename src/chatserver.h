@@ -17,15 +17,22 @@
 #include <retroshare/rsmsgs.h>
 #include <retroshare/rspeers.h>
 
-// must end with /
-const std::string certificatePath = "certs/";
-const std::string temporaryFriendsFile = "chatserver_temporary_friends.txt";
+/*
+ * "certificatePath" needs to be an empty directory
+ * The web interface puts all incoming certificates into this path.
+ * this chatserver program reads them, adds them and deletes them afterwards, so check permissions!
+ * the "temporaryFriendsFile" is only a txt file with gpg-ids in it.
+ * Don't make temporaryFriendsFile accessible from outside, as it would reveal all current accepted gpg ids.
+ * if there are more than "maxFriends" gpg ids, the oldest one is removed from the accepted list.
+ */
+const std::string certificatePath = "/var/www/w2c/certs/"; // must end with a slash !
+const std::string temporaryFriendsFile = "/var/www/w2c/.chatserver_temporary_friends.txt";
 
 class Chatserver
 {
 public:
-	Chatserver(const unsigned int checkForNewCertsInterval = 10,
-			   const unsigned int maxFriends = 20,
+	Chatserver(const unsigned int checkForNewCertsInterval = 30,
+			   const unsigned int maxFriends = 2,
 			   const unsigned int ticksUntilLobbiesAreCreated = 31);
 	void tick();
 	~Chatserver();
