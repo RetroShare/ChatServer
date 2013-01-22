@@ -103,13 +103,13 @@ void Chatserver::checkForNewCertificates()
 		std::string cert(buffer.str());
 
 		// we need to add "cert" now
-		std::string sslId, gpgId;
+		std::string sslId, gpgId, errorString;
 		try
 		{
-			bool success = rsPeers->loadCertificateFromString(cert, sslId, gpgId);
+			bool success = rsPeers->loadCertificateFromString(cert, sslId, gpgId, errorString);
 			if (!success)
 			{
-				std::cout << "ERROR: load certificate " << fileName << ", discarding it" << std::endl;
+				std::cout << "ERROR: load certificate " << fileName << ", error " << errorString << " discarding it" << std::endl;
 				removeFile(fileName);
 				continue;
 			}
