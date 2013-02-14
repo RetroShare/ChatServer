@@ -2,7 +2,7 @@
 #include <retroshare/rsinit.h>   /* definition of iface */
 #include <iostream>
 #include "chatserver.h"
-
+#include "MinimalNotify.h"
 #include <dirent.h>
 
 // copied from http://bytes.com/topic/c/answers/584434-check-directory-exists-c
@@ -66,7 +66,7 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-	NotifyBase *notify = new NotifyBase(); // discard all notifications!
+	NotifyBase *notify = new MinimalNotify(); // discard all notifications!
 	RsIface *iface = createRsIface(*notify);
 	RsControl *rsServer = createRsControl(*iface, *notify);
 	rsicontrol = rsServer ;
