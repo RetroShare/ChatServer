@@ -4,6 +4,8 @@
 #include "chatserver.h"
 #include "MinimalNotify.h"
 #include <dirent.h>
+#include <ctime>
+#include <unistd.h>
 
 // copied from http://bytes.com/topic/c/answers/584434-check-directory-exists-c
 bool DirectoryExists( const char* pzPath )

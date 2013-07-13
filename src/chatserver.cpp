@@ -152,6 +152,9 @@ void Chatserver::createOrRejoinLobbys()
 	createOrRejoinLobby("Chatserver DE", "Willkommen!", publicLobbies);
 	createOrRejoinLobby("Chatserver ES", "Hola!", publicLobbies);
 	createOrRejoinLobby("Chatserver FR", "Bonjour!", publicLobbies);
+	createOrRejoinLobby("PirateParty", "Arrrrr, http://antiprism.eu/", publicLobbies);
+	createOrRejoinLobby("RetroShare on IRC", "This Lobby is bridged to #retroshare on Freenode IRC. Connect with IRC WebChat http://webchat.freenode.net/?channels=retroshare", publicLobbies); 
+
 }
 
 void Chatserver::createOrRejoinLobby(const std::string lobbyName, const std::string lobbyTopic, const std::vector<VisibleChatLobbyRecord> &publicLobbies)
