@@ -25,8 +25,8 @@
  * Don't make temporaryFriendsFile accessible from outside, as it would reveal all current accepted gpg ids.
  * if there are more than "maxFriends" gpg ids, the oldest one is removed from the accepted list.
  */
-const std::string certificatePath = "/home/cave/.retroshare/chatserver/NEWCERTS/"; // must end with a slash !
-const std::string temporaryFriendsFile = "/home/cave/.retroshare/chatserver/friend_fifo.txt";
+const std::string certificatePath = "/home/user/.retroshare/chatserver/NEWCERTS/"; // must end with a slash !
+const std::string temporaryFriendsFile = "/home/user/.retroshare/chatserver/friend_fifo.txt";
 
 class Chatserver
 {
