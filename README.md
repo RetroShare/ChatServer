@@ -24,8 +24,8 @@ How to setup:
 - copy config folder to server
 - create the folder certificateFolder and the file chatserver_temporary_friends.txt
   (hardcoded in chatserver.h!)
-- start with ./retroshare-chatserver -c <configfolder>
-- setup w2c as webinterface, see https://github.com/drbob/rs-w2c
+- start with ./retroshare-chatserver -c configfolder
+- setup w2c as webinterface, see https://github.com/cavebeat/rs-w2c
 - make sure everything is correct with your permissions!
 
 Paths:
