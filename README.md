@@ -28,3 +28,14 @@ How to setup:
 - setup w2c as webinterface, see https://github.com/drbob/rs-w2c
 - make sure everything is correct with your permissions!
 
+Paths:
+- create Folders in ~/.retroshare
+-  mkdir ~/.retroshare/chatserver This is where the files of chatserver are stored
+-  mkdir ~/.retroshare/chatserver/NEWCERTS This is where www-data is storing entered pgp certificates
+-  mkdir ~/.retroshare/chatserver/STORAGE This is where the serverkey, lobbys and a hyperlink are stored
+
+Files: 
+- the file serverkey.txt is stored in ~/.retroshare/chatserver/STORAGE and holds the RetroShare public certificate which is displayed in php frontend
+- friendfifo.txt is stored in ~/.retroshare/chatserver/ and holds the FIFO Slots. chatserver reads them and deletes oldes entry from friendlist if there are more than 100 lines. 
+- PHP Frontend https://github.com/cavebeat/rs-w2c/ stores all new certificates in ~/.retroshare/chatserver/NEWCERTS/
+  chatserver reads all new pgp certificates from this directory and adds them to friendlist. And adds a line to ~/.retroshare/chatserver/friendfifo.txt
