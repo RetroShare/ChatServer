@@ -1,5 +1,6 @@
 #include <retroshare/rsiface.h>   /* definition of iface */
 #include <retroshare/rsinit.h>   /* definition of iface */
+#include <retroshare/rsconfig.h> 
 #include <iostream>
 #include "chatserver.h"
 #include "MinimalNotify.h"
@@ -100,6 +101,9 @@ int main(int argc, char **argv)
 
 	/* Start-up libretroshare server threads */
 	rsServer -> StartupRetroShare();
+        /* Disable all Turtle Routing and tunnel requests */
+        rsConfig->setOperatingMode(RS_OPMODE_NOTURTLE);
+
 
 	// start chatserver
 	Chatserver *chatserver = new Chatserver();

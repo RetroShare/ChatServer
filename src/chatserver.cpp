@@ -164,7 +164,7 @@ void Chatserver::createOrRejoinLobby(const std::string lobbyName, const std::str
 	for (std::vector<VisibleChatLobbyRecord>::const_iterator it = publicLobbies.begin(); it != publicLobbies.end(); ++it)
 	{
 		std::cout << "Chatserver is seeing the lobby " << it->lobby_name << ", " << it->lobby_topic << std::endl;
-		if (it->lobby_name == lobbyName && it->lobby_topic == lobbyTopic)
+		if (it->lobby_name == lobbyName)
 		{
 			// rejoin
 			std::cout << "Chatserver: rejoined lobby " + lobbyName << std::endl;

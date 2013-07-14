@@ -33,7 +33,7 @@ class Chatserver
 public:
 	Chatserver(const unsigned int checkForNewCertsInterval = 30,
 			   const unsigned int maxFriends = 100,
-			   const unsigned int ticksUntilLobbiesAreCreated = 31);
+			   const unsigned int ticksUntilLobbiesAreCreated = 120);
 	void tick();
 	~Chatserver();
 protected:
