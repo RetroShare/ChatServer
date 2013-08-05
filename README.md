@@ -16,6 +16,12 @@ How the chatserver works:
 How to setup:
 - download the git repo to retroshare-code/trunk/retroshare-chatserver
   (must be that path, because we need libretroshare for include/linking)
+- Chatserver changes in libretroshare
+	/build/retroshare/libretroshare/src/pqip3peermgr.cc
+	in p3peermgr.cc replace
+	setServicePermissionFlags(gpg_id,service_flags)
+	with 
+	setServicePermissionFlags(gpg_id,RS_SERVICE_PERM_NONE) 
 - change hardcoded constants in chatserver.h to what you want to, compile
   with qmake && make
 - setup an account with retroshare-gui as usual, perhaps add some friends 

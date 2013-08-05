@@ -128,7 +128,7 @@ void Chatserver::checkForNewCertificates()
 		}
 
 		// TODO: enable discovery or not?
-		if (!rsPeers->addFriend(sslId, gpgId, RS_SERVICE_PERM_DISCOVERY))
+		if (!rsPeers->addFriend(sslId, gpgId, RS_SERVICE_PERM_NONE))
 		{
 			std::cout << "ERROR: could not add friend." << std::endl;
 			continue;
