@@ -70,8 +70,9 @@ int main(int argc, char **argv)
 	}
 
 	NotifyBase *notify = new MinimalNotify(); // discard all notifications!
-	RsIface *iface = createRsIface(*notify);
-	RsControl *rsServer = createRsControl(*iface, *notify);
+//	RsIface *iface = createRsIface(*notify);
+//	RsControl *rsServer = createRsControl(*iface, *notify);
+	RsControl *rsServer = createRsControl(*notify);
 	rsicontrol = rsServer ;
 
 	std::string preferredId, gpgId, gpgName, gpgEmail, sslName;
