@@ -69,11 +69,11 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-	NotifyBase *notify = new MinimalNotify(); // discard all notifications!
-//	RsIface *iface = createRsIface(*notify);
-//	RsControl *rsServer = createRsControl(*iface, *notify);
-	RsControl *rsServer = createRsControl(*notify);
-	rsicontrol = rsServer ;
+
+        RsControl::earlyInitNotificationSystem() ;
+        NotifyTxt *notify = new NotifyTxt() ;
+        rsNotify->registerNotifyClient(notify);
+
 
 	std::string preferredId, gpgId, gpgName, gpgEmail, sslName;
 	RsInit::getPreferedAccountId(preferredId);
@@ -101,7 +101,8 @@ int main(int argc, char **argv)
 	}
 
 	/* Start-up libretroshare server threads */
-	rsServer -> StartupRetroShare();
+        RsControl::instance() -> StartupRetroShare();
+
         /* Disable all Turtle Routing and tunnel requests */
         rsConfig->setOperatingMode(RS_OPMODE_NOTURTLE);
 

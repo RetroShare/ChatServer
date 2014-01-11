@@ -14,7 +14,7 @@
 
 
 // discard all notifications, only the "askForPassword" needed for startup
-class MinimalNotify : public NotifyBase
+class NotifyTxt : public NotifyClient
 {
 public:
 	virtual bool askForPassword(const std::string& key_details, bool prev_is_bad, std::string& password);
