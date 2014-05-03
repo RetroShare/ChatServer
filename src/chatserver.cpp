@@ -26,7 +26,7 @@ void Chatserver::loadChatServerStore(const std::string filename)
 		getline(ifs, line);
 		std::cout << "reading |" << line << "|" << ", length " << line.length() << std::endl;
 		if (line.length() == 16)
-			friends.push_back(line);
+			friends.push_back(RsPgpId(line));
 	};
 	ifs.close();
 }
@@ -34,7 +34,7 @@ void Chatserver::loadChatServerStore(const std::string filename)
 void Chatserver::saveChatServerStore(const std::string filename)
 {
 	std::ofstream ofs(filename);
-	for (std::list<std::string>::iterator it = friends.begin(); it != friends.end(); ++it)
+	for (std::list<RsPgpId>::iterator it = friends.begin(); it != friends.end(); ++it)
 	{
 		std::cout << "writing |" << *it << "|" << std::endl;
 		ofs << *it << std::endl;
@@ -103,7 +103,9 @@ void Chatserver::checkForNewCertificates()
 		std::string cert(buffer.str());
 
 		// we need to add "cert" now
-		std::string sslId, gpgId, errorString;
+		std::string errorString;
+		RsPgpId gpgId;
+		RsPeerId sslId;
 		try
 		{
 			bool success = rsPeers->loadCertificateFromString(cert, sslId, gpgId, errorString);
@@ -114,7 +116,7 @@ void Chatserver::checkForNewCertificates()
 				continue;
 			}
 		}
-		catch (uint32_t error_code) // thrown in RsCertificate::RsCertificate(..)
+		catch (uint32_t /*error_code*/) // thrown in RsCertificate::RsCertificate(..)
 		{
 			std::cout << "ERROR: caught exception while loading certificate " << fileName << ", discarding it" << std::endl;
 			removeFile(fileName);
@@ -177,7 +179,7 @@ void Chatserver::createOrRejoinLobby(const std::string lobbyName, const std::str
 	if (!ableToRejoin)
 	{
 		// create new
-		const std::list<std::string> emptyList = std::list<std::string>();
+		const std::list<RsPeerId> emptyList = std::list<RsPeerId>();
 		std::cout << "Chatserver: creating new lobby " + lobbyName << std::endl;
 		rsMsgs->createChatLobby(lobbyName, lobbyTopic, emptyList, RS_CHAT_LOBBY_PRIVACY_LEVEL_PUBLIC);
 	}

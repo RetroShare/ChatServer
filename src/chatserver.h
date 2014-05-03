@@ -50,7 +50,7 @@ protected:
 	void createOrRejoinLobbys();
 	void createOrRejoinLobby(const std::string lobbyName, const std::string lobbyTopic, const std::vector<VisibleChatLobbyRecord> &publicLobbies);
 
-	std::list<std::string> friends;
+	std::list<RsPgpId> friends;
 	size_t numberOfFriends() { return friends.size(); }
 
 	void loadChatServerStore(const std::string filename = temporaryFriendsFile);
