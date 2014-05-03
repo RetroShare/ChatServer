@@ -27,6 +27,8 @@ linux-* {
 	LIBS += ../../openpgpsdk/src/lib/libops.a -lbz2
 	LIBS += -lssl -lupnp -lixml -lgnome-keyring
 	LIBS *= -lcrypto -ldl -lz 
+	#LIBS += -lsqlcipher
+	LIBS += ../../../lib/sqlcipher/.libs/libsqlcipher.a
 
 }
 

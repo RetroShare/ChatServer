@@ -1,6 +1,7 @@
-#include <retroshare/rsiface.h>   /* definition of iface */
-#include <retroshare/rsinit.h>   /* definition of iface */
+#include <retroshare/rsiface.h>     /* definition of iface */
+#include <retroshare/rsinit.h>      /* definition of iface */
 #include <retroshare/rsconfig.h> 
+#include <rsserver/rsaccounts.h>
 #include <iostream>
 #include "chatserver.h"
 #include "MinimalNotify.h"
@@ -46,7 +47,7 @@ int main(int argc, char **argv)
 	}
 	if (!file_writable(temporaryFriendsFile.c_str()))
 	{
-		std::cout << "hardcoded temporary friends file " << temporaryFriendsFile << "doesn't exist or isn't writable!" << std::endl;
+		std::cout << "hardcoded temporary friends file " << temporaryFriendsFile << " doesn't exist or isn't writable!" << std::endl;
 		return 1;
 	}
 
@@ -70,17 +71,20 @@ int main(int argc, char **argv)
 	}
 
 
-        RsControl::earlyInitNotificationSystem() ;
-        NotifyTxt *notify = new NotifyTxt() ;
-        rsNotify->registerNotifyClient(notify);
+	RsControl::earlyInitNotificationSystem() ;
+	NotifyTxt *notify = new NotifyTxt() ;
+	rsNotify->registerNotifyClient(notify);
 
 
-	std::string preferredId, gpgId, gpgName, gpgEmail, sslName;
-	RsInit::getPreferedAccountId(preferredId);
+	RsPeerId preferredId;
+	RsPgpId gpgId;
+	std::string gpgName, gpgEmail, sslName;
 
-	if (RsInit::getAccountDetails(preferredId, gpgId, gpgName, gpgEmail, sslName))
+	RsAccounts::GetPreferredAccountId(preferredId);
+
+	if (RsAccounts::GetAccountDetails(preferredId, gpgId, gpgName, gpgEmail, sslName))
 	{
-		RsInit::SelectGPGAccount(gpgId);
+		rsAccounts.SelectPGPAccount(gpgId);
 	}
 
 	/* Key + Certificate are loaded into libretroshare */
