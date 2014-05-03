@@ -49,6 +49,9 @@ void Chatserver::tick()
 	if (tickCounter % checkForNewCertsInterval == 0)
 		checkForNewCertificates();
 
+	if (tickCounter == 5)
+		deployOwnCert();
+
 	if (tickCounter == ticksUntilLobbiesAreCreated)
 	{
 		std::vector<VisibleChatLobbyRecord> dummy;
@@ -140,6 +143,19 @@ void Chatserver::checkForNewCertificates()
 		std::cout << "Chatserver: " << (removeFile(fileName) == false ? "couldn't " : "") << "remove " << fileName << std::endl;
 		saveChatServerStore();
 	}
+}
+
+void Chatserver::deployOwnCert()
+{
+	std::string key = rsPeers->GetRetroshareInvite(false);
+	// std::cout << "%own% " << key << std::endl;
+
+	const std::string filename = storagePath + "serverkey.txt";
+	std::ofstream ofs;
+	ofs.open(filename);
+	ofs << key << std::endl;
+	ofs.flush();
+	ofs.close();
 }
 
 void Chatserver::createOrRejoinLobbys()

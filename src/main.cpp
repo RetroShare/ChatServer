@@ -45,6 +45,11 @@ int main(int argc, char **argv)
 		std::cout << "hardcoded certificatePath " << certificatePath << " doesn't exist!" << std::endl;
 		return 1;
 	}
+	if (!file_writable(storagePath.c_str()))
+	{
+		std::cout << "hardcoded storagePath " << storagePath << " doesn't exist or isn't writable!" << std::endl;
+		return 1;
+	}
 	if (!file_writable(temporaryFriendsFile.c_str()))
 	{
 		std::cout << "hardcoded temporary friends file " << temporaryFriendsFile << " doesn't exist or isn't writable!" << std::endl;

@@ -26,6 +26,7 @@
  * if there are more than "maxFriends" gpg ids, the oldest one is removed from the accepted list.
  */
 const std::string certificatePath = "/home/user/.retroshare/chatserver/NEWCERTS/"; // must end with a slash !
+const std::string storagePath = "/home/user/.retroshare/chatserver/STORAGE/"; // must end with a slash !
 const std::string temporaryFriendsFile = "/home/user/.retroshare/chatserver/friend_fifo.txt";
 
 class Chatserver
@@ -45,6 +46,8 @@ protected:
 	void checkForNewCertificates();
 	void removeOldestFriend();
 	void removeAllFriends();
+
+	void deployOwnCert();
 
 	// called after some startup time, see "ticksUntilLobbysAreCreated"
 	void createOrRejoinLobbys();
