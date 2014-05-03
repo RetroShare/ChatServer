@@ -52,6 +52,7 @@ protected:
 	// called after some startup time, see "ticksUntilLobbysAreCreated"
 	void createOrRejoinLobbys();
 	void createOrRejoinLobby(const std::string lobbyName, const std::string lobbyTopic, const std::vector<VisibleChatLobbyRecord> &publicLobbies);
+	void createOrRejoinLobby(const std::string lobbyName, const std::string lobbyTopic, const std::string lobbyId,  const std::vector<VisibleChatLobbyRecord> &publicLobbies);
 
 	std::list<RsPgpId> friends;
 	size_t numberOfFriends() { return friends.size(); }

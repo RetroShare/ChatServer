@@ -166,39 +166,55 @@ void Chatserver::createOrRejoinLobbys()
 	rsMsgs->getListOfNearbyChatLobbies(publicLobbies);
 	std::cout << "ChatServer: found " << publicLobbies.size() << " public lobbies." << std::endl;
 
-	createOrRejoinLobby("Chatserver EN", "Welcome!", publicLobbies);
+	// name, topic, id (optional), publicLobbies
+	createOrRejoinLobby("Chatserver EN", "Welcome!", "b8e6eed03c11066d", publicLobbies);
 	createOrRejoinLobby("Chatserver DE", "Willkommen!", publicLobbies);
 	createOrRejoinLobby("Chatserver ES", "Hola!", publicLobbies);
 	createOrRejoinLobby("Chatserver FR", "Bonjour!", publicLobbies);
+	/*
 	createOrRejoinLobby("PirateParty", "Arrrrr, http://antiprism.eu/", publicLobbies);
-	createOrRejoinLobby("RetroShare on IRC", "This Lobby is bridged to #retroshare on Freenode IRC. Connect with IRC WebChat http://webchat.freenode.net/?channels=retroshare", publicLobbies); 
-
+	createOrRejoinLobby("RetroShare on IRC", "This Lobby is bridged to #retroshare on Freenode IRC. Connect with IRC WebChat http://webchat.freenode.net/?channels=retroshare", publicLobbies);
+	*/
 }
 
-void Chatserver::createOrRejoinLobby(const std::string lobbyName, const std::string lobbyTopic, const std::vector<VisibleChatLobbyRecord> &publicLobbies)
+void inline Chatserver::createOrRejoinLobby(const std::string lobbyName, const std::string lobbyTopic, const std::vector<VisibleChatLobbyRecord> &publicLobbies)
 {
+	createOrRejoinLobby(lobbyName, lobbyTopic, "", publicLobbies);
+}
+
+void Chatserver::createOrRejoinLobby(const std::string lobbyName, const std::string lobbyTopic, const std::string lobbyId, const std::vector<VisibleChatLobbyRecord> &publicLobbies)
+{
+	// convert string to ChatLobbyId
+	ChatLobbyId lid = 0;
+	if(lobbyId != "")
+		lid = strtoull(lobbyId.c_str(), NULL, 16);
+
+	std::cout << "createOrRejoinLobby: " << std::endl;
+	std::cout << "-- searching for name='" << lobbyName << "'";
+	if(lobbyId != "")
+		std::cout << " id=" << lobbyId;
+	std::cout << std::endl;
+
+	std::cout << "Chatserver is seeing:" << std::endl;
 	// range based for would be nicer, but don't want to use C++11 only for that
-	bool ableToRejoin = false;
 	for (std::vector<VisibleChatLobbyRecord>::const_iterator it = publicLobbies.begin(); it != publicLobbies.end(); ++it)
 	{
-		std::cout << "Chatserver is seeing the lobby " << it->lobby_name << ", " << it->lobby_topic << std::endl;
-		if (it->lobby_name == lobbyName)
+		std::cout << std::hex << "-- " << it->lobby_id << std::dec << ", " << it->lobby_name << ", " << it->lobby_topic << std::endl;
+		if ((lobbyId != "" && it->lobby_id == lid) ||		// id based
+			(lobbyId == "" && it->lobby_name == lobbyName))	// name based
 		{
 			// rejoin
 			std::cout << "Chatserver: rejoined lobby " + lobbyName << std::endl;
 			rsMsgs->joinVisibleChatLobby(it->lobby_id);
-			ableToRejoin = true;
 			return;
 		}
 	}
 
-	if (!ableToRejoin)
-	{
-		// create new
-		const std::list<RsPeerId> emptyList = std::list<RsPeerId>();
-		std::cout << "Chatserver: creating new lobby " + lobbyName << std::endl;
-		rsMsgs->createChatLobby(lobbyName, lobbyTopic, emptyList, RS_CHAT_LOBBY_PRIVACY_LEVEL_PUBLIC);
-	}
+	// when we reach this part of the code we didn't find a lobby to join --> create new
+	const std::list<RsPeerId> emptyList = std::list<RsPeerId>();
+	std::cout << "Chatserver: creating new lobby " + lobbyName << std::endl;
+	rsMsgs->createChatLobby(lobbyName, lobbyTopic, emptyList, RS_CHAT_LOBBY_PRIVACY_LEVEL_PUBLIC);
+
 }
 
 int Chatserver::getdir (std::string dir, std::vector<std::string> &files)
