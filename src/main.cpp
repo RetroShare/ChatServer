@@ -39,18 +39,22 @@ bool file_writable(const char * filename)
 	return false;
 }
 
-int generateGxsId(const std::string& name) {
+int generateGxsId(const std::string& name)
+{
 	uint32_t token;
 	RsIdentityParameters params;
+	// signing seems not to work from noguis
+	// if you want to use a signed ID create it by hand
 	params.isPgpLinked = false;
 	params.nickname = name;
 	rsIdentity->createIdentity(token, params);
 
-	// waiting for 10 seconds
+	// waiting for max. 10 seconds
 	uint counter = 0;
 	while (rsIdentity->getTokenService()->requestStatus(token) != RsTokenService::GXS_REQUEST_V2_STATUS_COMPLETE && counter++ < 10)
 		sleep(1);
 
+	// request fulfilled or timeout?
 	if(rsIdentity->getTokenService()->requestStatus(token) != RsTokenService::GXS_REQUEST_V2_STATUS_COMPLETE)
 	{
 		std::cerr << "Error: can't generate GXS Id" << std::endl;
@@ -137,6 +141,7 @@ int main(int argc, char **argv)
 	rsConfig->setOperatingMode(RS_OPMODE_NOTURTLE);
 
 	// give the core some time to start up fully
+	// otherwise the GXS IDs might not be setup
 	sleep(10);
 
 	// get GXS Id
@@ -149,14 +154,18 @@ int main(int argc, char **argv)
 		std::cout << "no GXS ID found -> generating a new one" << std::endl;
 
 		if(generateGxsId(name) != 0)
+			// geneation failed and error was already printed -> just return
 			return 1;
+
+		// pick first ID that is the newly generated one
 		rsIdentity->getOwnIds(ids);
 		id = ids.front();
 	} else {
-		// find gxs id with currect name
+		// find gxs id with suitable name
 		std::list<RsGxsId>::iterator it;
 		RsIdentityDetails details;
 		for(it = ids.begin(); it != ids.end(); ++it) {
+			// slightly ugly but needed since the details might not be available on the first request
 			// first request
 			rsIdentity->getIdDetails(*it, details);
 			// wait
@@ -171,20 +180,25 @@ int main(int argc, char **argv)
 			}
 		}
 
-		// assume that the correct ID isn't generated yet
 		if(id.isNull())
 		{
-			std::cout << "still 0!" << std::endl;
+			// assume that a suitable ID isn't generated yet
+			std::cout << "no suitable GXS ID found -> generating new one" << std::endl;
+
 			if(generateGxsId(name) != 0)
+				// geneation failed and error was already printed -> just return
 				return 1;
+
+			// pick first ID that is the newly generated one
 			rsIdentity->getOwnIds(ids);
 			id = ids.front();
 		}
 	}
 
+	// last sanity check - should not occur but you never know ...
 	if(id.isNull())
 	{
-		std::cerr << "Error: can't find GXS Id - available IDs are:" << std::endl;
+		std::cerr << "Error: can't find/generate suitable GXS Id" << std::endl;
 		return 1;
 	}
 	rsMsgs->setDefaultIdentityForChatLobby(id);
