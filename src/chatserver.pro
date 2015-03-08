@@ -27,9 +27,27 @@ linux-* {
 	LIBS += ../../openpgpsdk/src/lib/libops.a -lbz2
 	LIBS += -lssl -lupnp -lixml -lgnome-keyring
 	LIBS *= -lcrypto -ldl -lz 
-	#LIBS += -lsqlcipher
-	LIBS += ../../../lib/sqlcipher/.libs/libsqlcipher.a
 
+	SQLCIPHER_OK = $$system(pkg-config --exists sqlcipher && echo yes)
+	isEmpty(SQLCIPHER_OK) {
+# We need a explicit path here, to force using the home version of sqlite3 that really encrypts the database.
+
+		exists(../../../lib/sqlcipher/.libs/libsqlcipher.a) {
+
+			LIBS += ../../../lib/sqlcipher/.libs/libsqlcipher.a
+			DEPENDPATH += ../../../lib/sqlcipher/src/
+			INCLUDEPATH += ../../../lib/sqlcipher/src/
+			DEPENDPATH += ../../../lib/sqlcipher/tsrc/
+			INCLUDEPATH += ../../../lib/sqlcipher/tsrc/
+		} else {
+			message(libsqlcipher.a not found. Compilation will not use SQLCIPHER. Database will be unencrypted.)
+			DEFINES *= NO_SQLCIPHER
+			LIBS *= -lsqlite3
+		}
+
+	} else {
+		LIBS += -lsqlcipher
+	}
 }
 
 linux-g++ {

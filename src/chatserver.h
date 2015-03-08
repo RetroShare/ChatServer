@@ -26,14 +26,18 @@
  * if there are more than "maxFriends" gpg ids, the oldest one is removed from the accepted list.
  */
 const std::string certificatePath = "/home/user/.retroshare/chatserver/NEWCERTS/"; // must end with a slash !
+const std::string storagePath = "/home/user/.retroshare/chatserver/STORAGE/"; // must end with a slash !
 const std::string temporaryFriendsFile = "/home/user/.retroshare/chatserver/friend_fifo.txt";
+const std::string name = "Chatserver";
 
 class Chatserver
 {
 public:
-	Chatserver(const unsigned int checkForNewCertsInterval = 30,
-			   const unsigned int maxFriends = 100,
-			   const unsigned int ticksUntilLobbiesAreCreated = 120);
+	Chatserver(
+			RsGxsId id,
+			const unsigned int checkForNewCertsInterval = 30,
+			const unsigned int maxFriends = 100,
+			const unsigned int ticksUntilLobbiesAreCreated = 120);
 	void tick();
 	~Chatserver();
 protected:
@@ -41,14 +45,18 @@ protected:
 	const unsigned int maxFriends;
 	const unsigned int ticksUntilLobbiesAreCreated;
 	unsigned int tickCounter;
+	const RsGxsId ownId;
 
 	void checkForNewCertificates();
 	void removeOldestFriend();
 	void removeAllFriends();
 
+	void deployOwnCert();
+
 	// called after some startup time, see "ticksUntilLobbysAreCreated"
 	void createOrRejoinLobbys();
 	void createOrRejoinLobby(const std::string lobbyName, const std::string lobbyTopic, const std::vector<VisibleChatLobbyRecord> &publicLobbies);
+	void createOrRejoinLobby(const std::string lobbyName, const std::string lobbyTopic, const std::string lobbyId,  const std::vector<VisibleChatLobbyRecord> &publicLobbies);
 
 	std::list<RsPgpId> friends;
 	size_t numberOfFriends() { return friends.size(); }
