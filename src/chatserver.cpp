@@ -1,12 +1,15 @@
 #include "chatserver.h"
 
-Chatserver::Chatserver(const unsigned int _checkForNewCertsInterval,
-			   const unsigned int _maxFriends,
-			   const unsigned int _ticksUntilLobbiesAreCreated)
+Chatserver::Chatserver(
+		RsGxsId id,
+		const unsigned int _checkForNewCertsInterval,
+		const unsigned int _maxFriends,
+		const unsigned int _ticksUntilLobbiesAreCreated)
 : checkForNewCertsInterval(_checkForNewCertsInterval),
   maxFriends(_maxFriends),
   ticksUntilLobbiesAreCreated(_ticksUntilLobbiesAreCreated),
   tickCounter(0),
+  ownId(id),
   friends()
 {
 	loadChatServerStore();
@@ -133,7 +136,7 @@ void Chatserver::checkForNewCertificates()
 		}
 
 		// TODO: enable discovery or not?
-		if (!rsPeers->addFriend(sslId, gpgId, RS_SERVICE_PERM_NONE))
+		if (!rsPeers->addFriend(sslId, gpgId, RS_NODE_PERM_NONE))
 		{
 			std::cout << "ERROR: could not add friend." << std::endl;
 			continue;
@@ -205,7 +208,7 @@ void Chatserver::createOrRejoinLobby(const std::string lobbyName, const std::str
 		{
 			// rejoin
 			std::cout << "Chatserver: rejoined lobby " + lobbyName << std::endl;
-			rsMsgs->joinVisibleChatLobby(it->lobby_id);
+			rsMsgs->joinVisibleChatLobby(it->lobby_id, ownId);
 			return;
 		}
 	}
@@ -213,7 +216,7 @@ void Chatserver::createOrRejoinLobby(const std::string lobbyName, const std::str
 	// when we reach this part of the code we didn't find a lobby to join --> create new
 	const std::list<RsPeerId> emptyList = std::list<RsPeerId>();
 	std::cout << "Chatserver: creating new lobby " + lobbyName << std::endl;
-	rsMsgs->createChatLobby(lobbyName, lobbyTopic, emptyList, RS_CHAT_LOBBY_PRIVACY_LEVEL_PUBLIC);
+	rsMsgs->createChatLobby(lobbyName, ownId, lobbyTopic, emptyList, RS_CHAT_LOBBY_FLAGS_PUBLIC);
 
 }
 

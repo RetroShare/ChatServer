@@ -1,5 +1,6 @@
 #include <retroshare/rsiface.h>     /* definition of iface */
 #include <retroshare/rsinit.h>      /* definition of iface */
+#include <retroshare/rsidentity.h>
 #include <retroshare/rsconfig.h> 
 #include <rsserver/rsaccounts.h>
 #include <iostream>
@@ -36,6 +37,26 @@ bool file_writable(const char * filename)
 		return true;
 	}
 	return false;
+}
+
+int generateGxsId(const std::string& name) {
+	uint32_t token;
+	RsIdentityParameters params;
+	params.isPgpLinked = false;
+	params.nickname = name;
+	rsIdentity->createIdentity(token, params);
+
+	// waiting for 10 seconds
+	uint counter = 0;
+	while (rsIdentity->getTokenService()->requestStatus(token) != RsTokenService::GXS_REQUEST_V2_STATUS_COMPLETE && counter++ < 10)
+		usleep(1 * 1000 * 1000);
+
+	if(rsIdentity->getTokenService()->requestStatus(token) != RsTokenService::GXS_REQUEST_V2_STATUS_COMPLETE)
+	{
+		std::cerr << "Error: can't generate GXS Id" << std::endl;
+		return 1;
+	}
+	return 0;
 }
 
 int main(int argc, char **argv)
@@ -89,7 +110,7 @@ int main(int argc, char **argv)
 
 	if (RsAccounts::GetAccountDetails(preferredId, gpgId, gpgName, gpgEmail, sslName))
 	{
-		rsAccounts.SelectPGPAccount(gpgId);
+		rsAccounts->SelectPGPAccount(gpgId);
 	}
 
 	/* Key + Certificate are loaded into libretroshare */
@@ -110,14 +131,51 @@ int main(int argc, char **argv)
 	}
 
 	/* Start-up libretroshare server threads */
-        RsControl::instance() -> StartupRetroShare();
+	RsControl::instance() -> StartupRetroShare();
 
-        /* Disable all Turtle Routing and tunnel requests */
-        rsConfig->setOperatingMode(RS_OPMODE_NOTURTLE);
+	/* Disable all Turtle Routing and tunnel requests */
+	rsConfig->setOperatingMode(RS_OPMODE_NOTURTLE);
 
+	// get GXS Id
+	RsGxsId id;
+	std::list<RsGxsId> ids;
+	rsIdentity->getOwnIds(ids);
+
+	if(ids.empty()) {
+		// generate a new ID
+		if(generateGxsId(name) != 0)
+			return 1;
+		rsIdentity->getOwnIds(ids);
+		id = ids.front();
+	} else {
+		// find gxs id with currect name
+		std::list<RsGxsId>::iterator it;
+		RsIdentityDetails details;
+		for(it = ids.begin(); it != ids.end(); ++it) {
+			rsIdentity->getIdDetails(*it, details);
+			if(details.mNickname == name)
+				id = *it;
+		}
+
+		// assume that the correct ID isn't generated yet
+		if(id.isNull())
+		{
+			if(generateGxsId(name) != 0)
+				return 1;
+			rsIdentity->getOwnIds(ids);
+			id = ids.front();
+		}
+	}
+
+	if(id.isNull())
+	{
+		std::cerr << "Error: can't find GXS Id - available IDs are:" << std::endl;
+		return 1;
+	}
+	rsMsgs->setDefaultIdentityForChatLobby(id);
 
 	// start chatserver
-	Chatserver *chatserver = new Chatserver();
+	Chatserver *chatserver = new Chatserver(id);
 	while (true)
 	{
 			sleep(1);
