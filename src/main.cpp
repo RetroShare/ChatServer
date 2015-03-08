@@ -49,7 +49,7 @@ int generateGxsId(const std::string& name) {
 	// waiting for 10 seconds
 	uint counter = 0;
 	while (rsIdentity->getTokenService()->requestStatus(token) != RsTokenService::GXS_REQUEST_V2_STATUS_COMPLETE && counter++ < 10)
-		usleep(1 * 1000 * 1000);
+		sleep(1);
 
 	if(rsIdentity->getTokenService()->requestStatus(token) != RsTokenService::GXS_REQUEST_V2_STATUS_COMPLETE)
 	{
@@ -136,6 +136,9 @@ int main(int argc, char **argv)
 	/* Disable all Turtle Routing and tunnel requests */
 	rsConfig->setOperatingMode(RS_OPMODE_NOTURTLE);
 
+	// give the core some time to start up fully
+	sleep(10);
+
 	// get GXS Id
 	RsGxsId id;
 	std::list<RsGxsId> ids;
@@ -143,6 +146,8 @@ int main(int argc, char **argv)
 
 	if(ids.empty()) {
 		// generate a new ID
+		std::cout << "no GXS ID found -> generating a new one" << std::endl;
+
 		if(generateGxsId(name) != 0)
 			return 1;
 		rsIdentity->getOwnIds(ids);
@@ -152,14 +157,24 @@ int main(int argc, char **argv)
 		std::list<RsGxsId>::iterator it;
 		RsIdentityDetails details;
 		for(it = ids.begin(); it != ids.end(); ++it) {
+			// first request
 			rsIdentity->getIdDetails(*it, details);
-			if(details.mNickname == name)
+			// wait
+			sleep(1);
+			// second request
+			rsIdentity->getIdDetails(*it, details);
+			std::cout << "GXS ID: " << details.mNickname << std::endl;
+			if(details.mNickname == name) {
 				id = *it;
+				std::cout << "choosing this one: " << id.toStdString() << std::endl;
+				break;
+			}
 		}
 
 		// assume that the correct ID isn't generated yet
 		if(id.isNull())
 		{
+			std::cout << "still 0!" << std::endl;
 			if(generateGxsId(name) != 0)
 				return 1;
 			rsIdentity->getOwnIds(ids);
