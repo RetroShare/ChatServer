@@ -142,6 +142,11 @@ void Chatserver::checkForNewCertificates()
 			continue;
 		}
 		std::cout << "SUCCESS: added friend with gpg_id " << gpgId << std::endl;
+		// remove all existing gpgids from the friend fifo list before pushing a gpgid to the list
+		// this is to prevent users from adding them too often to the chatserver and reducing the capacity
+		// http://www.cplusplus.com/reference/list/list/remove/
+		friends.remove(gpgId);
+		// add the unique ID to the fifo list
 		friends.push_back(gpgId);
 		std::cout << "Chatserver: " << (removeFile(fileName) == false ? "couldn't " : "") << "remove " << fileName << std::endl;
 		saveChatServerStore();
