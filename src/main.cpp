@@ -148,6 +148,15 @@ int main(int argc, char **argv)
 	RsGxsId id;
 	std::list<RsGxsId> ids;
 	rsIdentity->getOwnIds(ids);
+	
+	/*
+	if(ids.empty()) {
+	std::cout << "no GXS ID found -> 5s sleep -> new check" << std::endl;
+	sleep(5);
+	rsIdentity->getOwnIds(ids);
+	}	
+	*/
+
 
 	if(ids.empty()) {
 		// generate a new ID
@@ -201,7 +210,8 @@ int main(int argc, char **argv)
 		std::cerr << "Error: can't find/generate suitable GXS Id" << std::endl;
 		return 1;
 	}
-	rsMsgs->setDefaultIdentityForChatLobby(id);
+
+	//rsMsgs->setDefaultIdentityForChatLobby(id);
 
 	// start chatserver
 	Chatserver *chatserver = new Chatserver(id);

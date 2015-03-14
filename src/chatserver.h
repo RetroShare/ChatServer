@@ -37,7 +37,7 @@ public:
 			RsGxsId id,
 			const unsigned int checkForNewCertsInterval = 30,
 			const unsigned int maxFriends = 100,
-			const unsigned int ticksUntilLobbiesAreCreated = 120);
+			const unsigned int ticksUntilLobbiesAreCreated = 60);
 	void tick();
 	~Chatserver();
 protected:
