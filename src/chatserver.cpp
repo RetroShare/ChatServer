@@ -175,7 +175,7 @@ void Chatserver::createOrRejoinLobbys()
 	std::cout << "ChatServer: found " << publicLobbies.size() << " public lobbies." << std::endl;
 
 	// name, topic, id (optional), publicLobbies
-	createOrRejoinLobby("Chatserver EN", "Welcome!", "b8e6eed03c11066d", publicLobbies);
+	createOrRejoinLobby("Chatserver EN", "Welcome!", publicLobbies);
 	createOrRejoinLobby("Chatserver DE", "Willkommen!", publicLobbies);
 	createOrRejoinLobby("Chatserver ES", "Hola!", publicLobbies);
 	createOrRejoinLobby("Chatserver FR", "Bonjour!", publicLobbies);

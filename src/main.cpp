@@ -148,29 +148,22 @@ int main(int argc, char **argv)
 	RsGxsId id;
 	std::list<RsGxsId> ids;
 	rsIdentity->getOwnIds(ids);
+
 	
-	/*
-	if(ids.empty()) {
-	std::cout << "no GXS ID found -> 5s sleep -> new check" << std::endl;
-	sleep(5);
-	rsIdentity->getOwnIds(ids);
-	}	
-	*/
-
-
-	if(ids.empty()) {
-		// generate a new ID
-		std::cout << "no GXS ID found -> generating a new one" << std::endl;
-
-		if(generateGxsId(name) != 0)
-			// geneation failed and error was already printed -> just return
-			return 1;
-
-		// pick first ID that is the newly generated one
+	// wait for max. 60 seconds
+	int16_t counter = 0; 
+	while(ids.empty() && counter++ < 12)
+	{
+		std::cout << "no GXS ID found -> sleep 5s -> check again" << std::endl;
+		sleep(5);
 		rsIdentity->getOwnIds(ids);
-		id = ids.front();
+	}
+ 
+	if(ids.empty()) {
+		std::cerr << "Error: unabled to find any GXS ID" << std::endl;
+		return 1;
 	} else {
-		// find gxs id with suitable name
+			// find gxs id with suitable name
 		std::list<RsGxsId>::iterator it;
 		RsIdentityDetails details;
 		for(it = ids.begin(); it != ids.end(); ++it) {
@@ -188,21 +181,40 @@ int main(int argc, char **argv)
 				break;
 			}
 		}
-
-		if(id.isNull())
-		{
-			// assume that a suitable ID isn't generated yet
-			std::cout << "no suitable GXS ID found -> generating new one" << std::endl;
-
-			if(generateGxsId(name) != 0)
-				// geneation failed and error was already printed -> just return
-				return 1;
-
-			// pick first ID that is the newly generated one
-			rsIdentity->getOwnIds(ids);
-			id = ids.front();
-		}
 	}
+
+
+	//if(ids.empty()) {
+		//// generate a new ID
+		//std::cout << "no GXS ID found -> generating a new one" << std::endl;
+
+		//if(generateGxsId(name) != 0)
+			//// geneation failed and error was already printed -> just return
+			//return 1;
+
+		//// pick first ID that is the newly generated one
+		//rsIdentity->getOwnIds(ids);
+		//id = ids.front();
+	//} else {
+	
+	
+
+
+		//if(id.isNull())
+		//{
+			//// assume that a suitable ID isn't generated yet
+			//std::cout << "no suitable GXS ID found -> generating new one" << std::endl;
+
+			//if(generateGxsId(name) != 0)
+				//// geneation failed and error was already printed -> just return
+				//return 1;
+
+			//// pick first ID that is the newly generated one
+			//rsIdentity->getOwnIds(ids);
+			//id = ids.front();
+		//}
+	//}
+	
 
 	// last sanity check - should not occur but you never know ...
 	if(id.isNull())
@@ -211,7 +223,7 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-	//rsMsgs->setDefaultIdentityForChatLobby(id);
+	rsMsgs->setDefaultIdentityForChatLobby(id);
 
 	// start chatserver
 	Chatserver *chatserver = new Chatserver(id);
