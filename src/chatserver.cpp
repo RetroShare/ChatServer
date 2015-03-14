@@ -52,8 +52,8 @@ void Chatserver::tick()
 	if (tickCounter % checkForNewCertsInterval == 0)
 		checkForNewCertificates();
 
-	if (tickCounter == 5)
-		deployOwnCert();
+	//if (tickCounter == 5)
+		//deployOwnCert();
 
 	if (tickCounter == ticksUntilLobbiesAreCreated)
 	{
