@@ -152,6 +152,14 @@ int main(int argc, char **argv)
 	
 	// wait for max. 60 seconds
 	int16_t counter = 0; 
+	
+	
+	if(ids.empty()) {
+		std::cout << "no GXS ID found -> sleep 5s -> 1st check again" << std::endl;
+		sleep(5);
+		rsIdentity->getOwnIds(ids);
+	}
+	
 	while(ids.empty() && counter++ < 12)
 	{
 		std::cout << "no GXS ID found -> sleep 5s -> check again" << std::endl;
