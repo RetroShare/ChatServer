@@ -219,7 +219,7 @@ void Chatserver::createOrRejoinLobby(const std::string lobbyName, const std::str
 	}
 
 	// when we reach this part of the code we didn't find a lobby to join --> create new
-	const std::list<RsPeerId> emptyList = std::list<RsPeerId>();
+	const std::set<RsPeerId> emptyList = std::set<RsPeerId>();
 	std::cout << "Chatserver: creating new lobby " + lobbyName << std::endl;
 	rsMsgs->createChatLobby(lobbyName, ownId, lobbyTopic, emptyList, RS_CHAT_LOBBY_FLAGS_PUBLIC);
 
