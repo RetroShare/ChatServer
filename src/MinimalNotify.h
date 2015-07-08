@@ -17,7 +17,7 @@
 class NotifyTxt : public NotifyClient
 {
 public:
-	virtual bool askForPassword(const std::string& key_details, bool prev_is_bad, std::string& password);
+	virtual bool askForPassword(const std::string& key_details, bool prev_is_bad, std::string& password, bool& cancel);
 };
 
 #endif /* MINIMALNOTIFY_H_ */
