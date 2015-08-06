@@ -1,7 +1,6 @@
 var NAVTREE =
 [
-  [ "My Project", "index.html", [
-    [ "https://github.com/RetroShare", "index.html", null ],
+  [ "RetroShare Chatserver", "index.html", [
     [ "retroshare-chatserver", "md_README.html", null ],
     [ "Modules", "modules.html", "modules" ],
     [ "Classes", null, [
