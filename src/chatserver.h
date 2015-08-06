@@ -42,7 +42,11 @@ public:
 	~Chatserver();
 protected:
 	const unsigned int checkForNewCertsInterval;
-	const unsigned int maxFriends;
+	/** max numbers of friends 
+	this should be limited to 50 - 150 users, 
+	so the load of the chatserver does not get too high because of too much connections. 
+	and the users get kicked from time to time and are forced to create their own meshnet*/
+	const unsigned int maxFriends; 		
 	const unsigned int ticksUntilLobbiesAreCreated;
 	unsigned int tickCounter;
 	const RsGxsId ownId;
