@@ -71,6 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
       <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -93,7 +94,7 @@ $(document).ready(function(){initNavTree('classChatserver.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -117,7 +118,7 @@ $(document).ready(function(){initNavTree('classChatserver.html','');});
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ae7a762c19aadac712db7b58789a58e5b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae7a762c19aadac712db7b58789a58e5b"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Chatserver</b> (RsGxsId id, const unsigned int checkForNewCertsInterval=30, const unsigned int maxFriends=100, const unsigned int ticksUntilLobbiesAreCreated=120)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Chatserver</b> (RsGxsId id, const unsigned int checkForNewCertsInterval=30, const unsigned int <a class="el" href="classChatserver.html#a8e0fcc574091d124020f3664a3deb157">maxFriends</a>=100, const unsigned int ticksUntilLobbiesAreCreated=120)</td></tr>
 <tr class="separator:ae7a762c19aadac712db7b58789a58e5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3be0d41c9449228cfc1a144180de6ce4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3be0d41c9449228cfc1a144180de6ce4"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>tick</b> ()</td></tr>
@@ -170,8 +171,7 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:a9b783f4f7dda6b6e5908c37002e41e83"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9b783f4f7dda6b6e5908c37002e41e83"></a>
 const unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>checkForNewCertsInterval</b></td></tr>
 <tr class="separator:a9b783f4f7dda6b6e5908c37002e41e83"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8e0fcc574091d124020f3664a3deb157"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8e0fcc574091d124020f3664a3deb157"></a>
-const unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>maxFriends</b></td></tr>
+<tr class="memitem:a8e0fcc574091d124020f3664a3deb157"><td class="memItemLeft" align="right" valign="top">const unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChatserver.html#a8e0fcc574091d124020f3664a3deb157">maxFriends</a></td></tr>
 <tr class="separator:a8e0fcc574091d124020f3664a3deb157"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a85348ad231f7af538a37cb301ceae1a9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a85348ad231f7af538a37cb301ceae1a9"></a>
 const unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>ticksUntilLobbiesAreCreated</b></td></tr>
@@ -186,6 +186,29 @@ const RsGxsId&#160;</td><td class="memItemRight" valign="bottom"><b>ownId</b></t
 std::list&lt; RsPgpId &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>friends</b></td></tr>
 <tr class="separator:a94ea7549f867c35c854ce4672183f841"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a8e0fcc574091d124020f3664a3deb157"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const unsigned int Chatserver::maxFriends</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<pre class="fragment">max numbers of friends 
+</pre><p> this should be limited to 50 - 150 users, so the load of the chatserver does not get too high because of too much connections. and the users get kicked from time to time and are forced to create their own meshnet </p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>src/<a class="el" href="chatserver_8h_source.html">chatserver.h</a></li>
 <li>src/chatserver.cpp</li>
@@ -196,7 +219,7 @@ std::list&lt; RsPgpId &gt;&#160;</td><td class="memItemRight" valign="bottom"><b
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classChatserver.html">Chatserver</a></li>
-    <li class="footer">Generated on Thu Aug 6 2015 16:01:29 for RetroShare Chatserver by
+    <li class="footer">Generated on Thu Aug 6 2015 16:17:55 for RetroShare Chatserver by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.5 </li>
   </ul>

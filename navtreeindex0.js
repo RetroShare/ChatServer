@@ -28,6 +28,8 @@ var NAVTREEINDEX0 =
 "classes.html":[2,1],
 "dir_68267d1309a1af8e8297ef4c3efbcdba.html":[3,0,0],
 "files.html":[3,0],
+"functions.html":[2,3,0],
+"functions_vars.html":[2,3,1],
 "group__RetroShare.html":[1,0],
 "hierarchy.html":[2,2],
 "index.html":[],
