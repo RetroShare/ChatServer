@@ -1,0 +1,10 @@
+/**
+@brief Documentation for the RetroShare Chatserver Sources
+@author cave beat
+@file
+*/
+/** @defgroup RetroShare */
+/**
+@mainpage https://github.com/RetroShare
+I am doing this to have some documentation for the chatserver. 
+*/
