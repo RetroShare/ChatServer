@@ -5,6 +5,7 @@
 */
 /** @defgroup RetroShare */
 /**
-@mainpage https://github.com/RetroShare
+@mainpage RetroShare Chatserver
 I am doing this to have some documentation for the chatserver. 
+How it works, how to setup. 
 */
