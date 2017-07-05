@@ -53,9 +53,9 @@ char *getpass (const char *prompt)
 }
 #endif
 
-bool NotifyTxt::askForPassword(const std::string& title, const std::string& question, bool /*prev_is_bad*/, std::string& password, bool& cancel)
+bool NotifyTxt::askForPassword(const std::string& title, const std::string& /*question*/, bool /*prev_is_bad*/, std::string& password, bool& cancel)
 {
-	char *passwd = getpass(("Please enter GPG password for key "+key_details+": ").c_str()) ;
+	char *passwd = getpass(("Please enter GPG password for key " + title + ": ").c_str()) ;
 	password = passwd;
 	cancel = false;	
 	return !password.empty();
