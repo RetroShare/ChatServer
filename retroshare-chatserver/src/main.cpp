@@ -1,13 +1,16 @@
+#include <retroshare/rsconfig.h>
+#include <retroshare/rsidentity.h>
 #include <retroshare/rsiface.h>     /* definition of iface */
 #include <retroshare/rsinit.h>      /* definition of iface */
-#include <retroshare/rsidentity.h>
-#include <retroshare/rsconfig.h> 
 #include <rsserver/rsaccounts.h>
-#include <iostream>
+#include <util/rsdir.h>
+
 #include "chatserver.h"
 #include "MinimalNotify.h"
-#include <dirent.h>
+
 #include <ctime>
+#include <dirent.h>
+#include <iostream>
 #include <unistd.h>
 
 // copied from http://bytes.com/topic/c/answers/584434-check-directory-exists-c
@@ -31,7 +34,7 @@ bool DirectoryExists( const char* pzPath )
 
 bool file_writable(const char * filename)
 {
-	if (FILE * file = fopen(filename, "rw"))
+	if (FILE * file = fopen(filename, "a"))
 	{
 		fclose(file);
 		return true;
@@ -65,19 +68,31 @@ int generateGxsId(const std::string& name)
 
 int main(int argc, char **argv)
 {
-	if (!DirectoryExists(certificatePath.c_str()))
+	std::string serverBase = rsAccounts->PathBaseDirectory() + "/chatserver/" ;
+	if(!RsDirUtil::checkCreateDirectory(serverBase))
 	{
-		std::cout << "hardcoded certificatePath " << certificatePath << " doesn't exist!" << std::endl;
+		std::cerr << "(EE) Cannot create ChatServer Base directory " + serverBase + ". This is not mandatory, but you probably have a permission problem." << std::endl;
 		return 1;
 	}
-	if (!file_writable(storagePath.c_str()))
+
+	certificatePath = serverBase + "NEWCERTS/" ;
+	if(!RsDirUtil::checkCreateDirectory(certificatePath))
 	{
-		std::cout << "hardcoded storagePath " << storagePath << " doesn't exist or isn't writable!" << std::endl;
+		std::cerr << "(EE) Cannot create certificatePath directory " + certificatePath + ". This is not mandatory, but you probably have a permission problem." << std::endl;
 		return 1;
 	}
+
+	storagePath = serverBase + "STORAGE/" ;
+	if(!RsDirUtil::checkCreateDirectory(storagePath))
+	{
+		std::cerr << "(EE) Cannot create storagePath directory " + storagePath + ". You probably have a permission problem." << std::endl;
+		return 1;
+	}
+
+	temporaryFriendsFile = serverBase + "friend_fifo.txt" ;
 	if (!file_writable(temporaryFriendsFile.c_str()))
 	{
-		std::cout << "hardcoded temporary friends file " << temporaryFriendsFile << " doesn't exist or isn't writable!" << std::endl;
+		std::cout << "(EE) temporary friends file " << temporaryFriendsFile << " isn't writable!" << std::endl;
 		return 1;
 	}
 

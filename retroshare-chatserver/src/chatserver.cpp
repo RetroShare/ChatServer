@@ -24,7 +24,7 @@ void Chatserver::loadChatServerStore(const std::string filename)
 {
 	std::ifstream ifs(filename);
 	std::string line;
-	while (!ifs.eof())
+	while (!ifs.eof() && !ifs.fail())
 	{
 		getline(ifs, line);
 		std::cout << "reading |" << line << "|" << ", length " << line.length() << std::endl;
