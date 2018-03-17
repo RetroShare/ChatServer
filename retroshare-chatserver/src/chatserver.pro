@@ -1,3 +1,5 @@
+!include("../../retroshare/retroshare.pri"): error("Could not include file ../../retroshare/retroshare.pri")
+
 # warning: I have crippled this file, guess it'll work only on Linux 32/64bit now
 
 TEMPLATE = app

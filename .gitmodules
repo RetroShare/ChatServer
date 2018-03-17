@@ -2,3 +2,7 @@
 	path = html
 	url = git@github.com:RetroShare/ChatServer.git
 	branch = gh-pages
+[submodule "retroshare"]
+	shallow = true
+	path = retroshare
+	url = https://github.com/RetroShare/RetroShare.git

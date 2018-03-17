@@ -14,16 +14,19 @@ How the chatserver works:
 - if the lobbys can't be joined, it creates new ones
 
 How to setup:
-- download the git repo to retroshare-code/trunk/retroshare-chatserver
-  (must be that path, because we need libretroshare for include/linking)
-- Chatserver changes in libretroshare
-	/build/retroshare/libretroshare/src/pqip3peermgr.cc
-	in p3peermgr.cc replace
-	setServicePermissionFlags(gpg_id,service_flags)
-	with 
-	setServicePermissionFlags(gpg_id,RS_SERVICE_PERM_NONE) 
+- download the git repo
+   ```bash
+   mkdir ~/retroshare-chatserver
+   cd ~/retroshare-chatserver 
+   git clone https://github.com/RetroShare/ChatServer.git trunk
+   cd trunk
+   git submodule update --init
+   ```
 - change hardcoded constants in chatserver.h to what you want to, compile
-  with qmake && make
+  with 
+   ```bash
+  qmake CONFIG+=rs_chatserver && make
+   ```
 - setup an account with retroshare-gui as usual, perhaps add some friends 
   which always will be allowed to connect (leeching lobbys and distributing 
   the chatserver lobbys even more far)
@@ -35,10 +38,10 @@ How to setup:
 - make sure everything is correct with your permissions!
 
 Paths:
-- create Folders in ~/.retroshare
--  mkdir ~/.retroshare/chatserver This is where the files of chatserver are stored
--  mkdir ~/.retroshare/chatserver/NEWCERTS This is where www-data is storing entered pgp certificates
--  mkdir ~/.retroshare/chatserver/STORAGE This is where the serverkey, lobbys and a hyperlink are stored
+- created Folders in ~/.retroshare
+-  ~/.retroshare/chatserver This is where the files of chatserver are stored
+-  ~/.retroshare/chatserver/NEWCERTS This is where www-data is storing entered pgp certificates
+-  ~/.retroshare/chatserver/STORAGE This is where the serverkey, lobbys and a hyperlink are stored
 
 Files: 
 - the file serverkey.txt is stored in ~/.retroshare/chatserver/STORAGE and holds the RetroShare public certificate which is displayed in php frontend
