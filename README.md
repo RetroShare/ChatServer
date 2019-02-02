@@ -1,7 +1,8 @@
 retroshare-chatserver
 =====================
-This is a chat intro server for RetroShare, which (hopefully) deal with
+This is a chat intro server for RetroShare, which (hopefully) deals with
 the issues the current one from retroshare-nogui has.
+
 How the chatserver works:
 - adds all certificates in a given, hardcoded directory, after adding it 
   deletes them
